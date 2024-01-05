@@ -1,0 +1,112 @@
+# Default values for mosquitto.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 1
+
+image:
+  repository: docker.io/library/eclipse-mosquitto
+  pullPolicy: IfNotPresent
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: ""
+
+config: ""
+#config: |
+#  listener 1883
+#  connection_messages true
+#  log_timestamp true
+#  log_timestamp_format %Y-%m-%dT%H:%M:%S
+
+# <username>:<mosquitto_password>
+# users:
+#   admin: $7$101$DYYCRVnXWMvPZDEV$xk3YW08IUP4BPKDhkT5oICks7HM30Ycoef8Q02JC0wGxK3OVT0kWo3+Gy3zj6z2fQyAne/DJDG0gRnRyMvCrAQ==
+users: {}
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: ""
+
+podAnnotations: {}
+
+podSecurityContext: {}
+  # fsGroup: 2000
+
+securityContext: {}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
+
+service:
+  type: ClusterIP
+  loadBalancerIP:
+  externalTrafficPolicy:
+  annotations: {}
+  # annotations:
+  #   metallb.universe.tf/allow-shared-ip: 'true'
+  ports:
+    - name: mqtt
+      protocol: TCP
+      port: 1883
+      targetPort: 1883
+   # - name: mqtt-auth
+   #   protocol: TCP
+   #   port: 1884
+   #   targetPort: 1884
+   # - name: mqtt-encrypted
+   #   protocol: TCP
+   #   port: 8883
+   #   targetPort: 8883
+   # - name: mqtt-encrypted-client-cert
+   #   protocol: TCP
+   #   port: 8884
+   #   targetPort: 8884
+   # - name: mqtt-encrypted-auth
+   #   protocol: TCP
+   #   port: 8885
+   #   targetPort: 8885
+   # - name: mqtt-websock
+   #   protocol: TCP
+   #   port: 8080
+   #   targetPort: 8080
+   # - name: mqtt-websock-encrypted
+   #   protocol: TCP
+   #   port: 8081
+   #   targetPort: 8081
+   # - name: mqtt-websock-auth
+   #   protocol: TCP
+   #   port: 8090
+   #   targetPort: 8090
+   # - name: mqtt-websock-encrypted-auth
+   #   protocol: TCP
+   #   port: 8091
+   #   targetPort: 8091
+
+resources: {}
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}

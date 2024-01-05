@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "mosquitto.fullname" . }}
+  labels:
+    {{- include "mosquitto.labels" . | nindent 4 }}
+data:
+  mosquitto.conf: |
+    {{- .Values.config | nindent 4 }}
+    {{- if .Values.users -}}
+    password_file /mosquitto/config/users
+  users:
+    {{- range $key, $value := .Values.users }}
+    {{ $key }}:{{ $value }}
+    {{- end }}
+    {{- end }}
